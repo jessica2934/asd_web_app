@@ -1,0 +1,108 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.header-container {
+    background-color: #002147; /* Oxford Blue */
+    color: white;
+    width: 100%;
+    padding: 30px 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .logo {
+    height: 60px;
+    margin-right: 20px;
+}
+
+.header h1 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+/* Your Album Style with custom adjustments for forms */
+.album-button {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 350px; /* Widened slightly for form layout */
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.album-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.album-button h2 {
+    font-size: 1.5rem;
+    color: #002147;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.album-button p {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Custom button for the analysis */
+.btn-analyze {
+    background-color: #002147;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-analyze:hover {
+    background-color: #003a7d;
+}
+
+/* Result Bar Styling */
+.probability-container {
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.probability-fill {
+    height: 100%;
+    background: #002147; /* Matching Oxford Blue */
+    transition: width 1s ease-in-out;
+}
+
+.result-highlight {
+    border-top: 5px solid #002147;
+}
