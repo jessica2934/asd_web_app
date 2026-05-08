@@ -46,6 +46,7 @@ def predict():
 
         # 2. ALIGN FEATURES
         df = df.reindex(columns=selected_features)
+
         for col in selected_features:
             if pd.isna(df[col].iloc[0]):
                 if col in feature_means.index:
@@ -71,30 +72,7 @@ def predict():
             confidence_text = "Unlikely to show ASD traits"
             confidence_level = "very-low"
 
-        # 5. SIMILARITY COMPARISON
-        input_vector = df[selected_features].values.flatten()
-        asd_vector = asd_profile[selected_features].values
-        normal_vector = normal_profile[selected_features].values
-
-        dist_asd = np.linalg.norm(input_vector - asd_vector)
-        dist_normal = np.linalg.norm(input_vector - normal_vector)
-
-        if dist_asd < dist_normal:
-            similarity_text = "Closer to ASD profile"
-        else:
-            similarity_text = "Closer to Normal profile"
-
-        # 6. FEATURE COMPARISON TABLE
-        feature_comparison = []
-        for feat in selected_features:
-            feature_comparison.append({
-                "name": feat,
-                "input_value": round(float(df[feat].iloc[0]), 3),
-                "asd_mean": round(float(asd_profile[feat]), 3),
-                "normal_mean": round(float(normal_profile[feat]), 3),
-            })
-
-        # 7. RETURN RESULT
+        # 5 RETURN RESULT
         return render_template(
             "index.html",
             prediction=int(prediction),
@@ -103,11 +81,7 @@ def predict():
             confidence_level=confidence_level,
             features=data,
             selected_features=selected_features,
-            feature_comparison=feature_comparison,
             filename=file.filename,
-            dist_asd=round(dist_asd, 2),
-            dist_normal=round(dist_normal, 2),
-            similarity_text=similarity_text
         )
 
     except Exception as e:
@@ -115,7 +89,6 @@ def predict():
             "index.html",
             error=f"Error processing image: {str(e)}"
         )
-
 
 # RUN APP
 

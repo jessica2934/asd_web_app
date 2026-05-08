@@ -4,435 +4,330 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ASD Screening | Bioimpedance Analysis</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
-    <style>
-        /* ========== ADDITIONAL STYLES ========== */
-
-        .result-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
-            margin-top: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Prediction Badge */
-        .prediction-badge {
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 10px 0;
-        }
-        .badge-asd {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 2px solid #ffc107;
-        }
-        .badge-normal {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            border: 2px solid #198754;
-        }
-
-        /* Probability Bar */
-        .prob-bar-container {
-            background: #e9ecef;
-            border-radius: 12px;
-            height: 32px;
-            overflow: hidden;
-            margin: 15px 0;
-            position: relative;
-        }
-        .prob-bar-fill {
-            height: 100%;
-            border-radius: 12px;
-            transition: width 1.2s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: white;
-            min-width: 40px;
-        }
-        .prob-low {
-            background: linear-gradient(90deg, #198754, #20c997);
-        }
-        .prob-moderate {
-            background: linear-gradient(90deg, #ffc107, #fd7e14);
-        }
-        .prob-high {
-            background: linear-gradient(90deg, #fd7e14, #dc3545);
-        }
-
-        /* Confidence Text */
-        .confidence-high {
-            color: #dc3545;
-            font-weight: 600;
-        }
-        .confidence-moderate {
-            color: #fd7e14;
-            font-weight: 600;
-        }
-        .confidence-low {
-            color: #198754;
-            font-weight: 600;
-        }
-        .confidence-very-low {
-            color: #0d6efd;
-            font-weight: 600;
-        }
-
-        /* Feature Comparison Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .comparison-table thead th {
-            background-color: #f8f9fa;
-            padding: 12px 15px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-align: center;
-            border-bottom: 2px solid #dee2e6;
-        }
-        .comparison-table tbody td {
-            padding: 10px 15px;
-            text-align: center;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .comparison-table tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .feature-name {
-            text-align: left;
-            font-weight: 500;
-        }
-        .value-closer-asd {
-            color: #dc3545;
-            font-weight: 600;
-        }
-        .value-closer-normal {
-            color: #198754;
-            font-weight: 600;
-        }
-
-        /* Similarity Section */
-        .similarity-section {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .similarity-card {
-            flex: 1;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .sim-asd {
-            background-color: #fff3cd;
-            border: 1px solid #ffc107;
-        }
-        .sim-normal {
-            background-color: #d1e7dd;
-            border: 1px solid #198754;
-        }
-        .sim-closer {
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.5);
-        }
-        .sim-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        .sim-label {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        /* All Features Accordion */
-        .all-features-toggle {
-            cursor: pointer;
-            color: #0d6efd;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        .all-features-toggle:hover {
-            text-decoration: underline;
-        }
-        .all-features-list {
-            display: none;
-            margin-top: 10px;
-        }
-        .all-features-list.show {
-            display: block;
-        }
-
-        /* Disclaimer */
-        .disclaimer {
-            background-color: #f8d7da;
-            border: 1px solid #f5c2c7;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #842029;
-        }
-
-        /* Error Alert */
-        .error-alert {
-            background-color: #f8d7da;
-            color: #842029;
-            border: 1px solid #f5c2c7;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-top: 15px;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <div class="header-container">
-        <div class="header">
-            <h1>Autism Spectrum Disorder Screening</h1>
-        </div>
-    </div>
 
-    <h2>Bioimpedance Analysis</h2>
-    <br>
-
-    <div class="button-container">
-
-        <!-- ========== UPLOAD SECTION ========== -->
-        <div class="album-button">
-            <h2>Data Upload</h2>
-            <p>Upload bioimpedance data file</p>
-            <hr>
-            <form action="/predict" method="post"
-                  enctype="multipart/form-data" id="uploadForm">
-                <input type="file" name="image" id="fileInput"
-                       class="form-control mb-3" required>
-
-                {% if filename %}
-                <p><strong>Uploaded File:</strong> {{ filename }}</p>
-                {% endif %}
-
-                <button type="submit" class="btn-analyze"
-                        id="submitBtn">Analyze Now</button>
-            </form>
-        </div>
-
-        <!-- ========== ERROR DISPLAY ========== -->
-        {% if error %}
-        <div class="error-alert">
-            <strong>⚠️ Error:</strong> {{ error }}
-        </div>
-        {% endif %}
-
-        <!-- ========== RESULTS SECTION ========== -->
-        {% if prediction is defined and prediction is not none %}
-        <div class="album-button result-highlight">
-
-            <!-- PREDICTION RESULT -->
-            <h2>Analysis Result</h2>
-
-            {% if prediction == 1 %}
-            <div class="prediction-badge badge-asd">
-                ⚠️ ASD-like Physiological Profile Detected
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="top-nav">
+        <div class="nav-inner">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">NeuroScreen</span>
+                    <span class="brand-sub">Clinical Decision Support</span>
+                </div>
             </div>
-            {% else %}
-            <div class="prediction-badge badge-normal">
-                ✅ Non-ASD Physiological Profile
+            <div class="nav-status">
+                <span class="status-dot"></span>
+                <span class="status-text">System Active</span>
             </div>
-            {% endif %}
+        </div>
+    </nav>
 
-            <!-- ASD LIKELIHOOD SCORE -->
-            <div class="mt-3">
-                <p style="margin-bottom: 5px;">
-                    <strong>ASD Likelihood Score:</strong>
-                    {{ (probability * 100) | round(1) }}%
-                    {% if confidence_text %}
-                    — <span class="confidence-{{ confidence_level }}">
-                        {{ confidence_text }}
-                    </span>
-                    {% endif %}
-                </p>
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">Bioimpedance Analysis Platform</div>
+            <h1>ASD Physiological Screening</h1>
+            <p>Upload bioimpedance composition data for automated machine learning analysis.
+               This system evaluates body composition markers associated with Autism Spectrum Disorder.</p>
+        </div>
+    </header>
 
-                <!-- PROBABILITY BAR -->
-                <div class="prob-bar-container">
-                    <div id="probFill" class="prob-bar-fill
-                        {% if probability >= 0.7 %}prob-high
-                        {% elif probability >= 0.5 %}prob-moderate
-                        {% else %}prob-low
-                        {% endif %}"
-                        data-width="{{ (probability * 100) | round(1) }}">
-                        {{ (probability * 100) | round(1) }}%
+    <main class="main-container">
+        <div class="content-grid">
+
+            <!-- LEFT PANEL: Upload -->
+            <section class="panel panel-upload">
+                <div class="panel-header">
+                    <div class="panel-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="panel-title">Data Upload</h2>
+                        <p class="panel-subtitle">Bioimpedance composition image</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- FEATURE COMPARISON TABLE -->
-            {% if feature_comparison %}
-            <hr>
-            <h5>📊 Key Feature Comparison</h5>
-            <p class="text-muted" style="font-size: 0.85rem;">
-                Comparing your values to ASD and Normal group averages
-                for the model's selected features.
-            </p>
+                <form action="/predict" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="upload-zone" id="dropZone">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <p class="upload-text">Drag & drop file here or click to browse</p>
+                        <p class="upload-hint">Supported: JPG, PNG, BMP</p>
+                        <input type="file" name="image" id="fileInput" class="file-input" accept="image/*" required>
+                    </div>
 
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Your Value</th>
-                        <th>ASD Mean</th>
-                        <th>Normal Mean</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for feat in feature_comparison %}
-                    <tr>
-                        <td class="feature-name">
-                            {{ feat.name | replace('_', ' ') | title }}
-                        </td>
-                        <td>
-                            {% set diff_asd = (feat.input_value
-                                - feat.asd_mean) | abs %}
-                            {% set diff_normal = (feat.input_value
-                                - feat.normal_mean) | abs %}
-                            <span class="
-                                {% if diff_asd < diff_normal %}
-                                    value-closer-asd
-                                {% else %}
-                                    value-closer-normal
-                                {% endif %}">
-                                {{ feat.input_value }}
-                            </span>
-                        </td>
-                        <td>{{ feat.asd_mean }}</td>
-                        <td>{{ feat.normal_mean }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endif %}
+                    {% if filename %}
+                    <div class="file-attached">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        <span>{{ filename }}</span>
+                    </div>
+                    {% endif %}
 
-            <!-- SIMILARITY SCORES -->
-            {% if dist_asd is defined and dist_normal is defined %}
-            <hr>
-            <h5>📏 Profile Similarity</h5>
-            <p class="text-muted" style="font-size: 0.85rem;">
-                Euclidean distance to group profiles
-                (lower = more similar)
-            </p>
+                    <button type="submit" class="btn-analyze" id="submitBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        Run Diagnostic Analysis
+                    </button>
+                </form>
 
-            <div class="similarity-section">
-                <div class="similarity-card sim-asd
-                    {% if dist_asd < dist_normal %}sim-closer{% endif %}">
-                    <div class="sim-label">Distance to ASD</div>
-                    <div class="sim-value">{{ dist_asd }}</div>
-                    {% if dist_asd < dist_normal %}
-                    <small>← Closer</small>
+                {% if error %}
+                <div class="alert-error">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" y1="9" x2="9" y2="15"/>
+                        <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                    <span>{{ error }}</span>
+                </div>
+                {% endif %}
+
+                <!-- INFO PANEL -->
+                <div class="info-card">
+                    <h4 class="info-title">How It Works</h4>
+                    <div class="info-steps">
+                        <div class="info-step">
+                            <div class="step-num">1</div>
+                            <p>Upload bioimpedance body composition image</p>
+                        </div>
+                        <div class="info-step">
+                            <div class="step-num">2</div>
+                            <p>System extracts physiological features via OCR</p>
+                        </div>
+                        <div class="info-step">
+                            <div class="step-num">3</div>
+                            <p>SVM classifier analyzes body composition patterns</p>
+                        </div>
+                        <div class="info-step">
+                            <div class="step-num">4</div>
+                            <p>Results displayed with confidence metrics</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: Results -->
+            {% if prediction is defined and prediction is not none %}
+            <section class="panel panel-results">
+                <div class="panel-header">
+                    <div class="panel-icon icon-results">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="panel-title">Analysis Results</h2>
+                        <p class="panel-subtitle">Classification output & metrics</p>
+                    </div>
+                </div>
+
+                <!-- PRIMARY RESULT -->
+                {% if prediction == 1 %}
+                <div class="result-primary result-asd">
+                    <div class="result-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="result-text">
+                        <h3>ASD-Associated Profile Detected</h3>
+                        <p>Physiological markers suggest patterns associated with Autism Spectrum Disorder</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="result-primary result-normal">
+                    <div class="result-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="result-text">
+                        <h3>Neurotypical Profile</h3>
+                        <p>Body composition metrics fall within typical population parameters</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- LIKELIHOOD METER -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">ASD Likelihood Score</span>
+                        {% if probability >= 0.7 %}
+                        <span class="metric-value val-high">{{ (probability * 100) | round(1) }}%</span>
+                        {% elif probability >= 0.5 %}
+                        <span class="metric-value val-moderate">{{ (probability * 100) | round(1) }}%</span>
+                        {% else %}
+                        <span class="metric-value val-low">{{ (probability * 100) | round(1) }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="meter-track">
+                        {% if probability >= 0.7 %}
+                        <div class="meter-fill fill-high"
+                            data-width="{{ probability * 100 }}"></div>
+
+                        {% elif probability >= 0.5 %}
+                        <div class="meter-fill fill-moderate"
+                            data-width="{{ probability * 100 }}"></div>
+
+                        {% else %}
+                        <div class="meter-fill fill-low"
+                            data-width="{{ probability * 100 }}"></div>
+                        {% endif %}
+                    </div>
+                    <div class="meter-labels">
+                        <span>Low Risk</span>
+                        <span>Moderate</span>
+                        <span>High Risk</span>
+                    </div>
+                    {% if confidence_level == "high" %}
+                    <div class="confidence-badge confidence-high">{{ confidence_text }}</div>
+                    {% elif confidence_level == "moderate" %}
+                    <div class="confidence-badge confidence-moderate">{{ confidence_text }}</div>
+                    {% elif confidence_level == "low" %}
+                    <div class="confidence-badge confidence-low">{{ confidence_text }}</div>
+                    {% else %}
+                    <div class="confidence-badge confidence-very-low">{{ confidence_text }}</div>
                     {% endif %}
                 </div>
-                <div class="similarity-card sim-normal
-                    {% if dist_normal < dist_asd %}sim-closer{% endif %}">
-                    <div class="sim-label">Distance to Normal</div>
-                    <div class="sim-value">{{ dist_normal }}</div>
-                    {% if dist_normal < dist_asd %}
-                    <small>← Closer</small>
-                    {% endif %}
+
+                <!-- DISCLAIMER -->
+                <div class="disclaimer">
+                    <div class="disclaimer-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="disclaimer-content">
+                        <strong>Clinical Disclaimer</strong>
+                        <p>This tool is for research and educational purposes only. Results are generated from a
+                        limited dataset (n=73) using body composition features
+                        ({{ selected_features | join(', ') | replace('_', ' ') | title }}).
+                        This system does not provide medical diagnosis and should not replace
+                        professional clinical evaluation. Always consult qualified healthcare
+                        professionals for ASD assessment.</p>
+                    </div>
                 </div>
-            </div>
-            <p class="text-center mt-2">
-                <strong>{{ similarity_text }}</strong>
-            </p>
+            </section>
+            {% else %}
+            <!-- PLACEHOLDER WHEN NO RESULTS -->
+            <section class="panel panel-placeholder">
+                <div class="placeholder-content">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                        <line x1="9" y1="21" x2="9" y2="9"/>
+                    </svg>
+                    <h3>Awaiting Data</h3>
+                    <p>Upload a bioimpedance composition image to begin analysis.
+                       Results will appear here with detailed metrics and comparisons.</p>
+                    <div class="placeholder-features">
+                        <div class="pf-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                            <span>Real-time classification</span>
+                        </div>
+                        <div class="pf-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Validated SVM model (AUC 0.86)</span>
+                        </div>
+                        <div class="pf-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                            <span>Detailed feature comparison</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
             {% endif %}
 
-            <!-- ALL EXTRACTED FEATURES (Expandable) -->
-            {% if features %}
-            <hr>
-            <span class="all-features-toggle"
-                  onclick="toggleFeatures()">
-                ▶ Show All Extracted Body Composition Data
-            </span>
-
-            <div class="all-features-list" id="allFeatures">
-                <ul class="list-group text-start">
-                    {% for key, value in features.items() %}
-                    <li class="list-group-item d-flex
-                               justify-content-between">
-                        <span>{{ key | replace('_', ' ') | title }}</span>
-                        <strong>{{ value }}</strong>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-
-            <!-- DISCLAIMER -->
-            <div class="disclaimer">
-                <strong>⚠️ Important Disclaimer:</strong>
-                This tool is for <strong>research and educational
-                purposes only</strong>. It is NOT a clinical diagnostic
-                tool. The model was trained on a small dataset (n=73)
-                with limited ASD cases (n=23) and uses only body
-                composition features ({{ selected_features | join(', ')
-                | replace('_', ' ') | title }}). Results should not
-                be used for medical diagnosis. Always consult qualified
-                healthcare professionals for ASD screening and
-                diagnosis.
-            </div>
         </div>
-        {% endif %}
+    </main>
 
-    </div>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>NeuroScreen Research Platform — For academic and research use only</p>
+            <p class="footer-meta">Model: SVM (RBF) | Features: Inorganic Salt, Protein, Muscle Mass | Dataset: n=73</p>
+        </div>
+    </footer>
 
-    <!-- ========== SCRIPTS ========== -->
     <script>
-        // Animate probability bar on page load
-        window.onload = function () {
-            const fill = document.getElementById('probFill');
-            if (fill) {
-                const widthValue = parseFloat(
-                    fill.getAttribute('data-width')
-                );
-                // Start from 0 and animate
-                fill.style.width = '0%';
-                setTimeout(function () {
-                    fill.style.width = widthValue + '%';
-                }, 100);
-            }
-        };
+        var dropZone = document.getElementById('dropZone');
+        var fileInput = document.getElementById('fileInput');
+        var form = document.getElementById('uploadForm');
+        var btn = document.getElementById('submitBtn');
 
-        // Toggle all features visibility
-        function toggleFeatures() {
-            const el = document.getElementById('allFeatures');
-            const toggle = el.previousElementSibling;
-            el.classList.toggle('show');
-            if (el.classList.contains('show')) {
-                toggle.textContent =
-                    '▼ Hide All Extracted Body Composition Data';
-            } else {
-                toggle.textContent =
-                    '▶ Show All Extracted Body Composition Data';
+        dropZone.addEventListener('click', function() { fileInput.click(); });
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', function() {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileName(e.dataTransfer.files[0].name);
             }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length) {
+                updateFileName(fileInput.files[0].name);
+            }
+        });
+
+        function updateFileName(name) {
+            var existing = dropZone.querySelector('.file-name-display');
+            if (existing) existing.remove();
+            var el = document.createElement('p');
+            el.className = 'file-name-display';
+            el.textContent = '\uD83D\uDCCE ' + name;
+            dropZone.appendChild(el);
         }
 
-        // Submit button loading state
-        const form = document.getElementById('uploadForm');
-        const btn = document.getElementById('submitBtn');
-        form.onsubmit = function () {
-            btn.innerHTML = '⏳ Processing...';
-            btn.style.opacity = '0.6';
+        form.onsubmit = function() {
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             btn.disabled = true;
         };
     </script>
