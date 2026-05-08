@@ -279,9 +279,11 @@ body {
 
 .file-input {
     position: absolute;
-    inset: 0;
+    width: 1px;
+    height: 1px;
     opacity: 0;
-    cursor: pointer;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .file-name-display {
