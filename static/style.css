@@ -1,6 +1,7 @@
+/* ========== GLOBAL ========== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5; 
+    background-color: #f0f2f5;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,14 +11,14 @@ body {
     text-align: center;
 }
 
+/* ========== HEADER ========== */
 .header-container {
-    background-color: #002147; /* Oxford Blue */
+    background: linear-gradient(135deg, #002147 0%, #003a7d 100%);
     color: white;
     width: 100%;
-    padding: 30px 20px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 35px 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 33, 71, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,80 +30,435 @@ body {
 }
 
 .header h1 {
-    font-size: 2.8rem;
-    font-weight: 400;
+    font-size: 2.5rem;
+    font-weight: 300;
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
+/* ========== SUBTITLE ========== */
+body > h2 {
+    color: #002147;
+    font-weight: 300;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+}
+
+/* ========== CARD CONTAINER ========== */
 .button-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     padding: 0 20px;
+    max-width: 1200px;
+    width: 100%;
 }
 
-/* Your Album Style with custom adjustments for forms */
+/* ========== CARDS ========== */
 .album-button {
     background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e4e8;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     padding: 30px;
-    width: 350px; /* Widened slightly for form layout */
+    width: 420px;
     text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .album-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .album-button h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: #002147;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .album-button p {
-    color: #555;
-    font-size: 1rem;
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
 }
 
-/* Custom button for the analysis */
+.album-button hr {
+    border: none;
+    border-top: 1px solid #e9ecef;
+    margin: 15px 0;
+}
+
+/* ========== UPLOAD FORM ========== */
+.form-control {
+    border: 2px dashed #ced4da;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #fafbfc;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:hover {
+    border-color: #003a7d;
+}
+
+.form-control:focus {
+    border-color: #002147;
+    box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.15);
+    outline: none;
+}
+
+/* ========== ANALYZE BUTTON ========== */
 .btn-analyze {
-    background-color: #002147;
+    background: linear-gradient(135deg, #002147 0%, #003a7d 100%);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 24px;
+    border-radius: 10px;
     font-weight: 600;
+    font-size: 1rem;
     width: 100%;
-    transition: background 0.3s;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
 }
 
 .btn-analyze:hover {
-    background-color: #003a7d;
+    background: linear-gradient(135deg, #003a7d 0%, #0052b4 100%);
+    box-shadow: 0 4px 15px rgba(0, 33, 71, 0.35);
+    transform: translateY(-1px);
 }
 
-/* Result Bar Styling */
-.probability-container {
-    height: 10px;
-    background: #e9ecef;
-    border-radius: 5px;
-    margin-top: 15px;
-    overflow: hidden;
+.btn-analyze:active {
+    transform: translateY(0);
 }
 
-.probability-fill {
-    height: 100%;
-    background: #002147; /* Matching Oxford Blue */
-    transition: width 1s ease-in-out;
+.btn-analyze:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
+/* ========== RESULT CARD ========== */
 .result-highlight {
-    border-top: 5px solid #002147;
+    border-top: 4px solid #002147;
+    width: 520px;
+}
+
+.result-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== PREDICTION BADGES ========== */
+.prediction-badge {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 12px 0;
+    letter-spacing: 0.2px;
+}
+
+.badge-asd {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffc107;
+}
+
+.badge-normal {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 2px solid #198754;
+}
+
+/* ========== PROBABILITY BAR ========== */
+.prob-bar-container {
+    background: #e9ecef;
+    border-radius: 12px;
+    height: 32px;
+    overflow: hidden;
+    margin: 15px 0;
+    position: relative;
+}
+
+.prob-bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 1.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    min-width: 45px;
+}
+
+.prob-low {
+    background: linear-gradient(90deg, #198754, #20c997);
+}
+
+.prob-moderate {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.prob-high {
+    background: linear-gradient(90deg, #fd7e14, #dc3545);
+}
+
+/* ========== CONFIDENCE TEXT ========== */
+.confidence-high {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.confidence-moderate {
+    color: #fd7e14;
+    font-weight: 600;
+}
+
+.confidence-low {
+    color: #198754;
+    font-weight: 600;
+}
+
+.confidence-very-low {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* ========== FEATURE COMPARISON TABLE ========== */
+.comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.comparison-table thead th {
+    background-color: #002147;
+    color: white;
+    padding: 12px 15px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.comparison-table tbody td {
+    padding: 10px 15px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.92rem;
+}
+
+.comparison-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.feature-name {
+    text-align: left !important;
+    font-weight: 500;
+    color: #333;
+}
+
+.value-closer-asd {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+.value-closer-normal {
+    color: #198754;
+    font-weight: 700;
+}
+
+/* ========== SIMILARITY CARDS ========== */
+.similarity-section {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.similarity-card {
+    flex: 1;
+    padding: 18px 15px;
+    border-radius: 14px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.sim-asd {
+    background-color: #fff8e1;
+    border: 1px solid #ffe082;
+}
+
+.sim-normal {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+}
+
+.sim-closer {
+    box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.4);
+}
+
+.sim-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #002147;
+    margin: 5px 0;
+}
+
+.sim-label {
+    font-size: 0.82rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========== ALL FEATURES EXPANDABLE ========== */
+.all-features-toggle {
+    cursor: pointer;
+    color: #003a7d;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: inline-block;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.all-features-toggle:hover {
+    color: #002147;
+    text-decoration: underline;
+}
+
+.all-features-list {
+    display: none;
+    margin-top: 12px;
+}
+
+.all-features-list.show {
+    display: block;
+}
+
+.all-features-list .list-group-item {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.all-features-list .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.all-features-list .list-group-item strong {
+    color: #002147;
+}
+
+/* ========== ERROR ALERT ========== */
+.error-alert {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    border-radius: 12px;
+    padding: 15px 24px;
+    margin-top: 15px;
+    max-width: 520px;
+    text-align: left;
+    font-size: 0.92rem;
+}
+
+/* ========== DISCLAIMER ========== */
+.disclaimer {
+    background-color: #fff3cd;
+    border: 1px solid #ffe69c;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    font-size: 0.82rem;
+    color: #664d03;
+    text-align: left;
+    line-height: 1.5;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    body > h2 {
+        font-size: 1.2rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .album-button {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .result-highlight {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .similarity-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .comparison-table {
+        font-size: 0.82rem;
+    }
+
+    .comparison-table thead th,
+    .comparison-table tbody td {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-container {
+        padding: 20px 15px;
+    }
+
+    .header h1 {
+        font-size: 1.3rem;
+    }
+
+    .album-button {
+        padding: 20px;
+    }
+
+    .prediction-badge {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    .sim-value {
+        font-size: 1.2rem;
+    }
 }
