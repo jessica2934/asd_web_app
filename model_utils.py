@@ -9,7 +9,6 @@ pytesseract.pytesseract.tesseract_cmd = (
 
 
 def clean_number(raw):
-    """Clean a raw OCR string and convert to float."""
     if raw is None:
         return None
 
@@ -33,10 +32,6 @@ def clean_number(raw):
 
 
 def extract_value(keyword, text, exclude_keywords=None):
-    """
-    Extract the first number associated with a keyword
-    from a section of OCR text.
-    """
     if exclude_keywords is None:
         exclude_keywords = []
 
@@ -70,9 +65,6 @@ def extract_value(keyword, text, exclude_keywords=None):
 
 
 def get_section(text, start_keyword, end_keyword=None):
-    """
-    Extract a section of text between two keywords.
-    """
     start = text.lower().find(start_keyword.lower())
 
     if start == -1:
@@ -87,20 +79,10 @@ def get_section(text, start_keyword, end_keyword=None):
 
 
 def validate_and_fix(data):
-    """
-    Validate extracted values against known physiological
-    ranges and fix common OCR errors.
-
-    As Feldhoff et al. (2025) recommend: "defining numerical
-    bounds to restrict the range of acceptable results ensures
-    that only feasible and reasonable values are considered" [2].
-    """
 
     # === WHR: must be 0.5-1.5 ===
     if data["WHR"] is not None:
         if data["WHR"] > 2.0:
-            # Common error: OCR grabs a 3-digit number
-            # Try dividing by powers of 10
             for divisor in [100, 1000, 10]:
                 candidate = data["WHR"] / divisor
                 if 0.5 <= candidate <= 1.5:
@@ -109,37 +91,34 @@ def validate_and_fix(data):
                     data["WHR"] = round(candidate, 2)
                     break
             else:
-                print(f"⚠️  WHR {data['WHR']} unreasonable "
+                print(f" WHR {data['WHR']} unreasonable "
                       f"— setting to None")
                 data["WHR"] = None
         elif data["WHR"] < 0.3:
-            print(f"⚠️  WHR {data['WHR']} too low "
+            print(f"WHR {data['WHR']} too low "
                   f"— setting to None")
             data["WHR"] = None
 
     # === BMI: must be 10-60 ===
     if data["BMI"] is not None:
         if data["BMI"] < 10:
-            # Common error: OCR outputs "2.34" instead of "23.4"
             candidate = data["BMI"] * 10
             if 10 <= candidate <= 60:
                 print(f"   → BMI fixed: {data['BMI']} "
                       f"-> {round(candidate, 1)}")
                 data["BMI"] = round(candidate, 1)
             else:
-                print(f"⚠️  BMI {data['BMI']} unreasonable "
+                print(f"BMI {data['BMI']} unreasonable "
                       f"— setting to None")
                 data["BMI"] = None
         elif data["BMI"] > 60:
-            print(f"⚠️  BMI {data['BMI']} unreasonable "
+            print(f"BMI {data['BMI']} unreasonable "
                   f"— setting to None")
             data["BMI"] = None
 
     # === BMR: must be 500-3000 kcal ===
     if data["BMR"] is not None:
         if data["BMR"] < 100:
-            # Common error: "1208" read as "12.08" or "8.62"
-            # Try multiplying to get into range
             for multiplier in [100, 1000, 10]:
                 candidate = data["BMR"] * multiplier
                 if 500 <= candidate <= 3000:
@@ -148,23 +127,22 @@ def validate_and_fix(data):
                     data["BMR"] = round(candidate, 0)
                     break
             else:
-                print(f"⚠️  BMR {data['BMR']} unreasonable "
+                print(f"BMR {data['BMR']} unreasonable "
                       f"— setting to None")
                 data["BMR"] = None
         elif data["BMR"] > 3000:
-            print(f"⚠️  BMR {data['BMR']} unreasonable "
+            print(f"BMR {data['BMR']} unreasonable "
                   f"— setting to None")
             data["BMR"] = None
 
     # === Visceral fat grade: must be 1-30 ===
     if data["visceral_fat"] is not None:
         if data["visceral_fat"] > 30:
-            # Common error: grabbed BMR value (e.g., 1551)
-            print(f"⚠️  Visceral fat {data['visceral_fat']} "
+            print(f"Visceral fat {data['visceral_fat']} "
                   f"too high — setting to None")
             data["visceral_fat"] = None
         elif data["visceral_fat"] < 1:
-            print(f"⚠️  Visceral fat {data['visceral_fat']} "
+            print(f"Visceral fat {data['visceral_fat']} "
                   f"too low — setting to None")
             data["visceral_fat"] = None
 
@@ -179,12 +157,12 @@ def validate_and_fix(data):
                       f"-> {round(candidate, 1)}")
                 data["body_fat_rate"] = round(candidate, 1)
             else:
-                print(f"⚠️  Body fat rate "
+                print(f" Body fat rate "
                       f"{data['body_fat_rate']} unreasonable "
                       f"— setting to None")
                 data["body_fat_rate"] = None
         elif data["body_fat_rate"] < 3:
-            print(f"⚠️  Body fat rate "
+            print(f"Body fat rate "
                   f"{data['body_fat_rate']} too low "
                   f"— setting to None")
             data["body_fat_rate"] = None
@@ -192,7 +170,7 @@ def validate_and_fix(data):
     # === Weight: must be 15-300 kg ===
     if data["weight"] is not None:
         if data["weight"] < 15 or data["weight"] > 300:
-            print(f"⚠️  Weight {data['weight']} unreasonable "
+            print(f"Weight {data['weight']} unreasonable "
                   f"— setting to None")
             data["weight"] = None
 
@@ -200,7 +178,7 @@ def validate_and_fix(data):
     if (data["body_fat"] is not None and
             data["weight"] is not None):
         if data["body_fat"] > data["weight"]:
-            print(f"⚠️  Body fat {data['body_fat']}kg > "
+            print(f"Body fat {data['body_fat']}kg > "
                   f"Weight {data['weight']}kg "
                   f"— setting body_fat to None")
             data["body_fat"] = None
@@ -208,7 +186,6 @@ def validate_and_fix(data):
     # === Inorganic salt: typically 1-6 kg ===
     if data["inorganic_salt"] is not None:
         if data["inorganic_salt"] > 10:
-            # Common error: "4.9" read as "49"
             candidate = data["inorganic_salt"] / 10
             if 1 <= candidate <= 6:
                 print(f"   → Inorganic salt fixed: "
@@ -216,7 +193,7 @@ def validate_and_fix(data):
                       f"-> {round(candidate, 1)}")
                 data["inorganic_salt"] = round(candidate, 1)
             else:
-                print(f"⚠️  Inorganic salt "
+                print(f"Inorganic salt "
                       f"{data['inorganic_salt']} unreasonable "
                       f"— setting to None")
                 data["inorganic_salt"] = None
@@ -224,8 +201,7 @@ def validate_and_fix(data):
     # === Muscle mass: must be > 5 kg for any person ===
     if data["muscle_mass"] is not None:
         if data["muscle_mass"] < 5:
-            # Common error: "42.3" read as "0.0" or "3.0"
-            print(f"⚠️  Muscle mass {data['muscle_mass']} "
+            print(f"Muscle mass {data['muscle_mass']} "
                   f"too low — setting to None")
             data["muscle_mass"] = None
 
@@ -240,7 +216,7 @@ def validate_and_fix(data):
                       f"-> {round(candidate, 1)}")
                 data["fat_free_mass"] = round(candidate, 1)
             else:
-                print(f"⚠️  Fat-free mass "
+                print(f"Fat-free mass "
                       f"{data['fat_free_mass']} unreasonable "
                       f"— setting to None")
                 data["fat_free_mass"] = None
@@ -249,10 +225,6 @@ def validate_and_fix(data):
 
 
 def extract_features_from_image(image):
-    """
-    Extract body composition features from a Fitdays
-    bioimpedance report image.
-    """
     image = np.array(image)
 
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)

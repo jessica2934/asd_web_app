@@ -1,16 +1,16 @@
-feature,asd_n,asd_mean,asd_std,normal_n,normal_mean,normal_std,t_stat,t_pvalue,u_stat,mw_pvalue,cohens_d,effect_size,normality_ok,test_used,primary_pvalue,significant_005,significant_010
-weight,23,61.017,33.454,50,69.342,15.854,-1.112,0.2759,420.0,0.0665,-0.365,small,False,MW-U,0.0665,False,True
-muscle_mass,21,38.729,19.025,47,46.832,11.046,-1.779,0.0869,365.0,0.0893,-0.581,medium,False,MW-U,0.0893,False,True
-protein,23,8.561,3.977,50,9.988,2.305,-1.569,0.1275,450.0,0.1392,-0.488,small,False,MW-U,0.1392,False,False
-fat_free_mass,23,42.757,19.897,50,49.922,11.523,-1.575,0.1262,452.0,0.1457,-0.489,small,False,MW-U,0.1457,False,False
-skeletal_muscle,23,23.491,12.142,50,27.892,7.051,-1.584,0.124,453.5,0.1507,-0.492,small,False,MW-U,0.1507,False,False
-body_water,23,31.322,14.584,50,36.584,8.454,-1.578,0.1256,454.5,0.1541,-0.49,small,False,MW-U,0.1541,False,False
-inorganic_salt,23,2.874,1.337,50,3.354,0.764,-1.573,0.1268,455.5,0.1572,-0.491,small,False,MW-U,0.1572,False,False
-BMR,23,1354.087,550.991,47,1448.128,269.28,-0.758,0.4547,450.0,0.2604,-0.245,small,False,MW-U,0.2604,False,False
-body_fat,22,17.868,15.409,49,19.394,8.822,-0.424,0.6747,462.5,0.3446,-0.136,negligible,False,MW-U,0.3446,False,False
-BMI,21,23.6,8.708,46,24.024,5.07,-0.203,0.8407,415.5,0.365,-0.066,negligible,False,MW-U,0.365,False,False
-SMI,23,6.787,2.704,50,7.35,1.583,-0.909,0.3708,506.0,0.4158,-0.282,small,True,t-test,0.3708,False,False
-subcutaneous_fat,23,17.489,10.494,50,19.772,6.88,-0.934,0.3575,513.5,0.4688,-0.279,small,False,MW-U,0.4688,False,False
-visceral_fat,22,7.091,6.741,46,7.0,4.07,0.057,0.9548,451.5,0.4762,0.018,negligible,False,MW-U,0.4762,False,False
-body_fat_rate,23,26.709,15.259,48,25.915,9.542,0.224,0.824,593.5,0.6144,0.068,negligible,False,MW-U,0.6144,False,False
-WHR,20,0.853,0.108,46,0.845,0.053,0.298,0.7685,503.5,0.5477,0.105,negligible,True,t-test,0.7685,False,False
+feature,u_stat,mw_pvalue,cohens_d,effect_size,direction,significant_005,significant_010,asd_n,asd_mean,asd_std,asd_median,normal_n,normal_mean,normal_std,normal_median
+weight,420.0,0.0665,-0.365,small,ASD < Normal,False,True,23,61.017,33.454,47.2,50,69.342,15.854,67.15
+muscle_mass,365.0,0.0893,-0.581,medium,ASD < Normal,False,True,21,38.729,19.025,37.6,47,46.832,11.046,48.5
+protein,450.0,0.1392,-0.488,small,ASD < Normal,False,False,23,8.561,3.977,8.3,50,9.988,2.305,10.3
+fat_free_mass,452.0,0.1457,-0.489,small,ASD < Normal,False,False,23,42.757,19.897,41.4,50,49.922,11.523,51.45
+skeletal_muscle,453.5,0.1507,-0.492,small,ASD < Normal,False,False,23,23.491,12.142,22.6,50,27.892,7.051,28.85
+body_water,454.5,0.1541,-0.49,small,ASD < Normal,False,False,23,31.322,14.584,30.2,50,36.584,8.454,37.7
+inorganic_salt,455.5,0.1572,-0.491,small,ASD < Normal,False,False,23,2.874,1.337,2.9,50,3.354,0.764,3.45
+BMR,450.0,0.2604,-0.245,small,ASD < Normal,False,False,23,1354.087,550.991,1259.0,47,1448.128,269.28,1493.0
+body_fat,462.5,0.3446,-0.136,negligible,ASD < Normal,False,False,22,17.868,15.409,12.85,49,19.394,8.822,18.0
+BMI,415.5,0.365,-0.066,negligible,ASD < Normal,False,False,21,23.6,8.708,18.9,46,24.024,5.07,22.95
+SMI,506.0,0.4158,-0.282,small,ASD < Normal,False,False,23,6.787,2.704,6.5,50,7.35,1.583,7.4
+subcutaneous_fat,513.5,0.4688,-0.279,small,ASD < Normal,False,False,23,17.489,10.494,22.3,50,19.772,6.88,20.05
+visceral_fat,451.5,0.4762,0.018,negligible,ASD > Normal,False,False,22,7.091,6.741,4.5,46,7.0,4.07,6.0
+WHR,503.5,0.5477,0.105,negligible,ASD > Normal,False,False,20,0.853,0.108,0.855,46,0.845,0.053,0.85
+body_fat_rate,593.5,0.6144,0.068,negligible,ASD > Normal,False,False,23,26.709,15.259,33.8,48,25.915,9.542,25.05
