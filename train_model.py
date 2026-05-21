@@ -417,7 +417,6 @@ def run_permutation_test(pipeline, X_selected, y, model_name):
 # 8. ABLATION STUDY
 
 def run_ablation(pipeline, selected_features, X, y, base_auc):
-    """Remove one feature at a time to measure importance."""
     print("\n" + "=" * 60)
     print("  FEATURE ABLATION")
     print("=" * 60)
@@ -456,10 +455,6 @@ def run_ablation(pipeline, selected_features, X, y, base_auc):
 def generate_plots(all_results, best_name, train_accs, val_accs,
                    val_aucs, ablation_results, perm_scores, true_score,
                    p_value, overfit_report):
-    """Generate all visualization plots."""
-    print("\n" + "=" * 60)
-    print("  GENERATING VISUALIZATIONS")
-    print("=" * 60)
 
     sorted_results = sorted(all_results.items(),
                             key=lambda x: x[1]['auc'], reverse=True)
@@ -487,7 +482,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/01_model_comparison.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/01_model_comparison.png")
 
     # --- Plot 2: ROC Curves ---
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -505,7 +499,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/02_roc_curves.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/02_roc_curves.png")
 
     # --- Plot 3: Confusion Matrix (best model) ---
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -519,7 +512,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/03_confusion_matrix.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/03_confusion_matrix.png")
 
     # --- Plot 4: 5-Fold CV ---
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -539,7 +531,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/04_cv_performance.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/04_cv_performance.png")
 
     # --- Plot 5: Permutation Test ---
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -557,7 +548,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/05_permutation_test.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/05_permutation_test.png")
 
     # --- Plot 6: Overfitting Comparison ---
     fig, ax = plt.subplots(figsize=(10, 5))
@@ -576,7 +566,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/06_overfit_analysis.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/06_overfit_analysis.png")
 
     # --- Plot 7: Feature Ablation ---
     fig, ax = plt.subplots(figsize=(8, 4))
@@ -595,7 +584,6 @@ def generate_plots(all_results, best_name, train_accs, val_accs,
     plt.tight_layout()
     plt.savefig(f"{GRAPHS_DIR}/07_feature_ablation.png", dpi=150)
     plt.close()
-    print(f"  {GRAPHS_DIR}/07_feature_ablation.png")
 
 
 # MAIN PIPELINE

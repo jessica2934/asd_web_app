@@ -572,48 +572,8 @@ if not small_effect.empty:
 fig, ax = plt.subplots(figsize=(12, 8))
 ax.axis('off')
 
-# --- Final Summary Graph ---
-fig, ax = plt.subplots(figsize=(12, 8))
-ax.axis('off')
-summary_text = f"""STATISTICAL ANALYSIS SUMMARY
-
-Dataset: {n_asd} ASD vs {n_normal} Normal participants
-Features tested: {n_total_features}
-
-
-Step 1: Shapiro-Wilk Normality Test
-
-Result: {n_failed_normality}/{n_total_features} features NOT normally distributed
-Decision: Data violates normality assumption
-
-
-Step 2: Mann-Whitney U Test (non-parametric)
-
-- Does NOT require normal distribution
-- Compares ranks between groups
-- Appropriate for small samples (n < 50)
-
-
-Results:
-
-- Significant (p < 0.05): {len(sig_005)} features
-- Trend (p < 0.10):       {len(trends)} features (weight, muscle_mass)
-- Medium effect size:     1 feature (muscle_mass)
-- Small effect sizes:     9 features
-
-
-Reference: Chicco et al. (2025) BioData Mining [1]
-"""
-ax.text(0.05, 0.95, summary_text, transform=ax.transAxes,
-        fontsize=11, verticalalignment='top', fontfamily='sans-serif')
-plt.tight_layout()
-plt.savefig("statistical_graphs/E_summary.png", dpi=150,
-            bbox_inches='tight')
-plt.close()
-print(f"\n  Graph saved: statistical_graphs/E_summary.png")
-
 
 # ==========================================================
-# 4. SAVE ALL RESULTS
+# SAVE ALL RESULTS
 # ==========================================================
 results_df.to_csv("statistical_test_results.csv", index=False)
