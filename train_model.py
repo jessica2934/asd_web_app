@@ -213,11 +213,16 @@ def run_feature_selection(X, y):
 
     # Show top 10
     results_df = pd.DataFrame.from_dict(efs.get_metric_dict()).T
+    results_df['n_features'] = results_df['feature_names'].apply(len)
     results_df.sort_values('avg_score', ascending=False, inplace=True)
-    print("\n  Top 10 combinations:")
-    for i, (_, row) in enumerate(results_df.head(10).iterrows()):
-        print(f"    {i+1}. {row['feature_names']} -> "
-              f"AUC={row['avg_score']:.3f} ± {row['std_dev']:.3f}")
+
+    print("\n  Top 3 combinations by feature set size:")
+    for n in [3, 4, 5]:
+        subset = results_df[results_df['n_features'] == n].head(3)
+        print(f"\n  {n}-feature combinations:")
+        for i, (_, row) in enumerate(subset.iterrows()):
+            print(f"    {i+1}. {row['feature_names']} -> "
+                  f"AUC={row['avg_score']:.3f} ± {row['std_dev']:.3f}")
 
     return selected
 
