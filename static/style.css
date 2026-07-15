@@ -859,3 +859,16 @@ body {
     background: #eef2f7;
     color: #5c6b7a;
 }
+
+.brand-icon {
+    background: transparent;
+    padding: 0;
+    width: 150px;      
+    height: 64px;      
+}
+
+.brand-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
